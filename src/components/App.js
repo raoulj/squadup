@@ -29,7 +29,7 @@ class App extends Component {
     return (
       <Router>
         <div>
-          <Navbar appName="UUNite"></Navbar>
+          <Navbar appName="SquadUp"></Navbar>
           <Link to="/testing">Something here</Link>
         </div>
       </Router>
