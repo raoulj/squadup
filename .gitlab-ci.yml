@@ -25,6 +25,7 @@ test:
 build:
   stage: build
   script:
+    - CI=false
     - echo "Building the app"
     - npm run build
 
