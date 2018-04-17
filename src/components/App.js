@@ -30,7 +30,7 @@ class App extends Component {
       <Router>
         <div>
           <Navbar appName="SquadUp"></Navbar>
-          <Link to="/testing">Something here</Link>
+          <Link to="/testing">Raoul is cool here</Link>
         </div>
       </Router>
       // <div>
