@@ -3,6 +3,7 @@ import fire from './../fire';
 // import { Router, Route, Switch } from 'react-router'
 import Home from './Home'
 import Navbar from './Navbar'
+import Picker from './Picker/Picker'
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 
 class App extends Component {
@@ -31,21 +32,9 @@ class App extends Component {
         <div>
           <Navbar appName="SquadUp"></Navbar>
           <Link to="/testing">Raoul is cool here</Link>
+          <Picker/>
         </div>
       </Router>
-      // <div>
-      //   <Navbar appName="UUnite"></Navbar>
-      //   <Home name="test"></Home>
-      //   <form onSubmit={this.addMessage.bind(this)}>
-      //     <input type="text" ref={ el => this.inputEl = el }/>
-      //     <input type="submit"/>
-      //     <ul>
-      //       { /* Render the list of messages */
-      //         this.state.messages.map( message => <li key={message.id}>{message.text}</li> )
-      //       }
-      //     </ul>
-      //   </form>
-      // </div>
     );
   }
 }
