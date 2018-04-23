@@ -42,7 +42,7 @@ class App extends Component {
     return (
       <Router>
         <div>
-          <Navbar appName="SquadUp" />
+          <Navbar appName="SquadDown" />
           <Link to="/testing">Raoul is cool here</Link>
           <Calendar date={moment([2018, 3, 10])} />
         </div>
