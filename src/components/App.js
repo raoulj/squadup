@@ -40,13 +40,10 @@ class App extends Component {
   }
   render() {
     return (
-      <Router>
-        <div>
-          <Navbar appName="SquadDown" />
-          <Link to="/testing">Raoul is cool here</Link>
-          <Calendar date={moment([2018, 3, 10])} />
-        </div>
-      </Router>
+      <div>
+        <Navbar appName="SquadUp" />
+        <Calendar />
+      </div>
       // <div>
       //   <Navbar appName="UUnite"></Navbar>
       //   <Home name="test"></Home>

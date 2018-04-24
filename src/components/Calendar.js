@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-
-import Dayz from 'dayz';
+import BigCalendar from 'react-big-calendar';
 // could also import the sass if you have a loader at dayz/dayz.scss
 import moment from 'moment';
-import 'dayz/dist/dayz.css';
+import 'react-big-calendar/lib/css/react-big-calendar.css';
 
+BigCalendar.setLocalizer(BigCalendar.momentLocalizer(moment));
 // would come from a network request in a "real" app
 // var a = moment('2018-04-18');
 // var b = moment('2018-04-22');
@@ -15,40 +15,28 @@ class Calendar extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      startDate: this.props.date, // <- set up react state
-
-      EVENTS: new Dayz.EventsCollection([
+      events: [
         {
-          content: 'A short event',
-          range: moment.range(
-            this.props.date.clone(),
-            this.props.date.clone(1, 'day')
-          )
+          start: new Date(),
+          end: new Date(moment().add(1, 'days')),
+          title: 'Some title'
         },
         {
-          content: 'Two Hours ~ 8-10',
-          range: moment.range(
-            this.props.date.clone().hour(8),
-            this.props.date.clone().hour(10)
-          )
-        },
-        {
-          content: 'A Longer Event',
-          range: moment.range(
-            this.props.date.clone().subtract(2, 'days'),
-            this.props.date.clone().add(8, 'days')
-          )
+          start: new Date(),
+          end: new Date(moment().add(1, 'week')),
+          title: "Raoul's Big Break"
         }
-      ])
+      ]
     };
   }
 
   render() {
     return (
-      <Dayz
-        display="month"
-        date={this.state.startDate}
-        events={this.state.EVENTS}
+      <BigCalendar
+        defaultDate={new Date()}
+        defaultView="month"
+        events={this.state.events}
+        style={{ height: '85vh', 'margin-top': '10px' }}
       />
     );
   }
