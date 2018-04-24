@@ -10,9 +10,6 @@ class Navbar extends Component {
   render() {
     return (
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
-        <a className="navbar-brand" href="#">
-          {this.props.appName}
-        </a>
         <button
           className="navbar-toggler"
           type="button"
@@ -24,6 +21,11 @@ class Navbar extends Component {
         >
           <span className="navbar-toggler-icon" />
         </button>
+        <img
+          src={require('../assets/logo.png')}
+          alt="Logo"
+          style={{ height: '69px', 'margin-right': '50px' }}
+        />
 
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav mr-auto">
@@ -43,6 +45,7 @@ class Navbar extends Component {
               </a>
             </li>
           </ul>
+
           <form className="form-inline my-2 my-lg-0">
             <input
               className="form-control mr-sm-2"
