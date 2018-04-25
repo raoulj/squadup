@@ -1,12 +1,27 @@
 import React, { Component } from 'react';
 import fire from './../fire';
-// import { Router, Route, Switch } from 'react-router'
-import Home from './Home';
-import Navbar from './Navbar';
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
-
-import moment from 'moment';
+import {
+  Nav,
+  Navbar,
+  NavbarBrand,
+  NavbarToggler,
+  NavLink,
+  NavItem,
+  Collapse,
+  UncontrolledDropdown,
+  DropdownMenu,
+  DropdownItem,
+  DropdownToggle
+} from 'reactstrap';
+import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
 import Calendar from './Calendar';
+import ProtectedRoute from './ProtectedRoute';
+import Login from './Login';
+import NoMatch from './NoMatch';
+import LandingPage from './LandingPage';
+import logo from './../assets/logo.png';
+
+import 'bootstrap';
 
 class App extends Component {
   constructor(props) {
@@ -40,10 +55,48 @@ class App extends Component {
   }
   render() {
     return (
-      <div>
-        <Navbar appName="SquadUp" />
-        <Calendar />
-      </div>
+      <Router>
+        <div>
+          <Navbar color="light" light expand="md">
+            <NavbarBrand href="/">
+              <img src={logo} height="50vh" />
+            </NavbarBrand>
+            <NavbarToggler onClick={this.toggle} />
+            <Collapse isOpen={this.state.isOpen} navbar>
+              <Nav className="ml-auto" navbar>
+                <NavItem>
+                  <NavLink href="/dashboard">My Calendar</NavLink>
+                </NavItem>
+                <NavItem>
+                  <NavLink href="/cal_unprotected">All Calendars</NavLink>
+                </NavItem>
+                <UncontrolledDropdown nav inNavbar>
+                  <DropdownToggle nav caret>
+                    Options
+                  </DropdownToggle>
+                  <DropdownMenu right>
+                    <DropdownItem>Option 1</DropdownItem>
+                    <DropdownItem>Option 2</DropdownItem>
+                    <DropdownItem divider />
+                    <DropdownItem>Reset</DropdownItem>
+                  </DropdownMenu>
+                </UncontrolledDropdown>
+              </Nav>
+            </Collapse>
+          </Navbar>
+          <Switch>
+            <Route exact path="/" component={LandingPage} />
+            <Route path="/login" component={Login} />
+            <Route path="/cal_unprotected" component={Calendar} />
+            <ProtectedRoute
+              path="/dashboard"
+              component={Calendar}
+              redirectPath="/"
+            />
+            <Route component={NoMatch} />
+          </Switch>
+        </div>
+      </Router>
     );
   }
 }

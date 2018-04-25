@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import fire from '../fire';
 
-class LandingPage extends Component {
+class ProtectedRoute extends Component {
   constructor({ component: Component, ...rest }) {
     super();
     this.state = {
@@ -11,14 +11,14 @@ class LandingPage extends Component {
           {...rest}
           render={props =>
             fire.isLoggedIn() ? (
+              <Component {...props} />
+            ) : (
               <Redirect
                 to={{
-                  pathname: '/dashboard',
+                  pathname: '/login',
                   state: { from: props.location }
                 }}
               />
-            ) : (
-              <div>This is the landing page</div>
             )
           }
         />
@@ -30,4 +30,4 @@ class LandingPage extends Component {
   }
 }
 
-export default LandingPage;
+export default ProtectedRoute;
