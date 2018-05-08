@@ -15,6 +15,8 @@ import {
 } from 'reactstrap';
 import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
 import Calendar from './Calendar';
+import Events from './Events';
+import CreateEvent from './CreateEvent';
 import ProtectedRoute from './ProtectedRoute';
 import Login from './Login';
 import NoMatch from './NoMatch';
@@ -70,12 +72,15 @@ class App extends Component {
                 <NavItem>
                   <NavLink href="/cal_unprotected">All Calendars</NavLink>
                 </NavItem>
+                <NavItem>
+                  <NavLink href="/events">Events</NavLink>
+                </NavItem>
                 <UncontrolledDropdown nav inNavbar>
                   <DropdownToggle nav caret>
                     Options
                   </DropdownToggle>
                   <DropdownMenu right>
-                    <DropdownItem>Option 1</DropdownItem>
+                    <DropdownItem href="/CreateEvent">CreateEvent</DropdownItem>
                     <DropdownItem>Option 2</DropdownItem>
                     <DropdownItem divider />
                     <DropdownItem>Reset</DropdownItem>
@@ -88,6 +93,9 @@ class App extends Component {
             <Route exact path="/" component={LandingPage} />
             <Route path="/login" component={Login} />
             <Route path="/cal_unprotected" component={Calendar} />
+            <Route path="/events" component={Events} />
+            <Route path="/CreateEvent" component={CreateEvent} />
+
             <ProtectedRoute
               path="/dashboard"
               component={Calendar}
