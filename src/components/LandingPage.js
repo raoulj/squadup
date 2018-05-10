@@ -131,6 +131,7 @@ class LandingPage extends Component {
   }
 
   render() {
+    console.log(this.props);
     const { activeIndex } = this.state;
 
     const slides = items.map(item => {

@@ -19,13 +19,24 @@ import fire from './../fire';
 class Login extends Component {
   constructor(props) {
     super(props);
+    console.log('login prop');
     console.log(props);
     this.state = {
       email: '',
       password: '',
       errorMessage: '',
-      isloggedIn: props.isloggedIn
+      isLoggedIn: false
     };
+
+    fire.auth().onAuthStateChanged(
+      function(user) {
+        if (user) {
+          this.setState({ isLoggedIn: true });
+        } else {
+          this.setState({ isLoggedIn: false });
+        }
+      }.bind(this)
+    );
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -67,7 +78,7 @@ class Login extends Component {
   }
 
   render() {
-    console.log(this.state.isloggedIn);
+    console.log(this.state.isLoggedIn);
     if (this.state.isLoggedIn) {
       return (
         <Redirect

@@ -42,7 +42,7 @@ class Calendar extends Component {
         views={['month', 'week', 'day']}
         popup={true}
         events={this.state.events}
-        style={{ height: '85vh', 'margin-top': '10px' }}
+        style={{ height: '85vh', marginTop: '10px' }}
       />
     );
   }

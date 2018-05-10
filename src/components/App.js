@@ -29,14 +29,14 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isloggedIn: false
+      isLoggedIn: false
     }; // <- set up react state
     fire.auth().onAuthStateChanged(
       function(user) {
         if (user) {
-          this.setState({ isloggedIn: true });
+          this.setState({ isLoggedIn: true });
         } else {
-          this.setState({ isloggedIn: false });
+          this.setState({ isLoggedIn: false });
         }
       }.bind(this)
     );
@@ -64,8 +64,24 @@ class App extends Component {
   //     .push(this.inputEl.value);
   //   this.inputEl.value = ''; // <- clear the input
   // }
+  logout(e) {
+    e.preventDefault();
+    fire
+      .auth()
+      .signOut()
+      .then(
+        function() {
+          console.log('signed out');
+        },
+        function(error) {
+          console.log('error on sign out:');
+          console.log(error);
+        }
+      );
+  }
+
   render() {
-    console.log('Is logged in: ' + this.state.isloggedIn);
+    console.log('Is logged in: ' + this.state.isLoggedIn);
     return (
       <Router>
         <div>
@@ -98,7 +114,7 @@ class App extends Component {
                     <DropdownItem href="/CreateEvent">CreateEvent</DropdownItem>
 
                     <DropdownItem divider />
-                    <DropdownItem>Logout</DropdownItem>
+                    <DropdownItem onClick={this.logout}>Logout</DropdownItem>
                   </DropdownMenu>
                 </UncontrolledDropdown>
               </Nav>
@@ -106,20 +122,14 @@ class App extends Component {
           </Navbar>
           <Switch>
             <Route exact path="/" component={LandingPage} />
-            <Route
-              path="/login"
-              component={Login}
-              isloggedIn={this.state.isloggedIn}
-            />
+            <Route path="/login" component={Login} />
             <Route path="/cal_unprotected" component={Calendar} />
             <Route path="/events" component={Events} />
             <Route path="/CreateEvent" component={CreateEvent} />
-
             <ProtectedRoute
+              isLoggedIn={this.state.isLoggedIn}
               path="/dashboard"
-              isloggedIn={this.state.isloggedIn}
               component={Calendar}
-              redirectPath="/"
             />
             <Route component={NoMatch} />
           </Switch>

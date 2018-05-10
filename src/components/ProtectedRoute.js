@@ -3,30 +3,31 @@ import { Route, Redirect } from 'react-router-dom';
 import fire from '../fire';
 
 class ProtectedRoute extends Component {
-  constructor({ component: Component, isLoggedIn: isLoggedIn, ...rest }) {
+  constructor({ component: Component, ...rest }) {
     super();
     this.state = {
-      childComponent: (
-        <Route
-          {...rest}
-          render={props =>
-            isLoggedIn ? (
-              <Component {...props} />
-            ) : (
-              <Redirect
-                to={{
-                  pathname: '/login',
-                  state: { from: props.location }
-                }}
-              />
-            )
-          }
-        />
-      )
+      component: Component,
+      props: { ...rest }
     };
   }
   render() {
-    return this.state.childComponent;
+    return (
+      <Route
+        {...this.state.props}
+        render={props =>
+          this.props.isLoggedIn ? (
+            <this.state.component {...this.state.props} />
+          ) : (
+            <Redirect
+              to={{
+                pathname: '/login',
+                state: { from: this.state.props.location }
+              }}
+            />
+          )
+        }
+      />
+    );
   }
 }
 
