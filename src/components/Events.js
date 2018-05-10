@@ -14,49 +14,51 @@ class Events extends Component {
 
   render() {
     return (
-      <div style={{ height: '100%', margin: '10px 20%' }}>
-        <Fade in={this.state.fadeIn}>
-          <Jumbotron>
-            <center>
-              <img src={raoul} height="200px" />
+      <div style={{ background: '#F0F8FF', padding: '10px ' }}>
+        <div style={{ height: '100%', margin: '10px 20%' }}>
+          <Fade in={this.state.fadeIn}>
+            <Jumbotron>
+              <center>
+                <img src={raoul} height="200px" />
 
-              <p className="team">Men's Swimming and Diving Team</p>
-            </center>
-            <hr className="my-2" />
-            <p className="date"> Tuesday, 05/22/18 </p>
-            <p className="venue">Denunzio Pool (vs Columbia)</p>
-            <p className="description">
-              Come support your tigers as we look to take down our rivals, the
-              Columbia Lions. We are undefeated so far this season and hope to
-              continue this trend, but we need your support.
+                <p className="team">Men's Swimming and Diving Team</p>
+              </center>
+              <hr className="my-2" />
+              <p className="date"> Tuesday, 05/22/18 </p>
+              <p className="venue">Denunzio Pool (vs Columbia)</p>
+              <p className="description">
+                Come support your tigers as we look to take down our rivals, the
+                Columbia Lions. We are undefeated so far this season and hope to
+                continue this trend, but we need your support.
+              </p>
+              <hr className="my-2" />
+            </Jumbotron>
+          </Fade>
+
+          <center>
+            <p className="lead">
+              <Button
+                color="danger"
+                size="lg"
+                style={{ marginRight: '20%' }}
+                onClick={this.toggle}
+              >
+                Nah
+              </Button>
+              <Button outline color="secondary">
+                Skip
+              </Button>
+              <Button
+                color="primary"
+                size="lg"
+                style={{ marginLeft: '20%' }}
+                onClick={this.toggle}
+              >
+                SquadUp
+              </Button>
             </p>
-            <hr className="my-2" />
-          </Jumbotron>
-        </Fade>
-
-        <center>
-          <p className="lead">
-            <Button
-              color="danger"
-              size="lg"
-              style={{ marginRight: '20%' }}
-              onClick={this.toggle}
-            >
-              Nah
-            </Button>
-            <Button outline color="secondary">
-              Skip
-            </Button>
-            <Button
-              color="primary"
-              size="lg"
-              style={{ marginLeft: '20%' }}
-              onClick={this.toggle}
-            >
-              SquadUp
-            </Button>
-          </p>
-        </center>
+          </center>
+        </div>
       </div>
     );
   }
