@@ -97,16 +97,26 @@ class App extends Component {
             <NavbarToggler onClick={this.toggle} />
             <Collapse isOpen={this.state.isOpen} navbar>
               <Nav className="ml-auto" navbar>
-                <NavItem>
-                  <NavLink href="/dashboard">My Calendar</NavLink>
+                <NavItem hidden={!this.state.isLoggedIn}>
+                  <NavLink href="/my-calendar">My Calendar</NavLink>
                 </NavItem>
-                <NavItem>
-                  <NavLink href="/cal_unprotected">All Calendars</NavLink>
+                <NavItem hidden={!this.state.isLoggedIn}>
+                  <NavLink href="/all-calendar">All Calendars</NavLink>
                 </NavItem>
-                <NavItem>
+                <NavItem hidden={!this.state.isLoggedIn}>
                   <NavLink href="/events">Events</NavLink>
                 </NavItem>
-                <UncontrolledDropdown nav inNavbar>
+                <NavItem hidden={this.state.isLoggedIn}>
+                  <NavLink href="/">Home</NavLink>
+                </NavItem>
+                <NavItem hidden={this.state.isLoggedIn}>
+                  <NavLink href="/login">Login</NavLink>
+                </NavItem>
+                <UncontrolledDropdown
+                  nav
+                  inNavbar
+                  hidden={!this.state.isLoggedIn}
+                >
                   <DropdownToggle nav caret>
                     Admin
                   </DropdownToggle>
@@ -123,12 +133,16 @@ class App extends Component {
           <Switch>
             <Route exact path="/" component={LandingPage} />
             <Route path="/login" component={Login} />
-            <Route path="/cal_unprotected" component={Calendar} />
             <Route path="/events" component={Events} />
             <Route path="/CreateEvent" component={CreateEvent} />
             <ProtectedRoute
+              path="/all-calendar"
+              component={Calendar}
               isLoggedIn={this.state.isLoggedIn}
-              path="/dashboard"
+            />
+            <ProtectedRoute
+              isLoggedIn={this.state.isLoggedIn}
+              path="/my-calendar"
               component={Calendar}
             />
             <Route component={NoMatch} />

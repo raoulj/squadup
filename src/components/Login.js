@@ -19,8 +19,6 @@ import fire from './../fire';
 class Login extends Component {
   constructor(props) {
     super(props);
-    console.log('login prop');
-    console.log(props);
     this.state = {
       email: '',
       password: '',
@@ -78,12 +76,17 @@ class Login extends Component {
   }
 
   render() {
-    console.log(this.state.isLoggedIn);
     if (this.state.isLoggedIn) {
+      // if we just happen upon the login extension instead of being redirected
+      if (this.props.location.state) {
+        var redirect_location = this.props.location.state.from.pathname;
+      } else {
+        var redirect_location = 'my-calendar';
+      }
       return (
         <Redirect
           to={{
-            pathname: '/dashboard'
+            pathname: redirect_location
           }}
         />
       );
