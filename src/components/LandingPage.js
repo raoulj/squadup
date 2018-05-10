@@ -3,7 +3,8 @@ import { Route, Redirect } from 'react-router-dom';
 import fire from '../fire';
 import page1 from './../assets/landingImage1.png';
 import page2 from './../assets/landingImage2.png';
-import raoul from './../assets/raoul.jpg';
+import page3 from './../assets/landingImage3.png';
+
 import '../index.css';
 
 import {
@@ -19,13 +20,13 @@ import {
 
 const items = [
   {
+    src: page3
+  },
+  {
     src: page1
   },
   {
     src: page2
-  },
-  {
-    src: raoul
   }
 ];
 
@@ -142,7 +143,7 @@ class LandingPage extends Component {
           key={item.src}
         >
           <center>
-            <img src={item.src} />
+            <img src={item.src} style={{ width: '67%', height: '80%' }} />
           </center>
         </CarouselItem>
       );
@@ -228,6 +229,10 @@ class LandingPage extends Component {
                   />
                   <br />
                   <input type="submit" value="SquadUp" id="button" />
+                  <br />
+                  <p class="accountLogin">
+                    Already have an account? <a href="/login">Login here</a>
+                  </p>
                 </div>
               </Form>
             </center>
