@@ -16,3 +16,114 @@ p.description {
 p.venue {
   font-style: italic;
 }
+
+#landingPage {
+  background: #f0f8ff;
+  padding-top: 20px;
+  padding-bottom: 40px;
+}
+
+#header {
+  margin-bottom: 10px;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+#signUp {
+  background: #c0c0c0;
+  height: 400px;
+  margin-left: 25%;
+  margin-right: 25%;
+  margin-top: 20px;
+  padding-top: 20px;
+  box-shadow: 5px 5px 5px 5px;
+  border-radius: 2px;
+}
+
+#signForm {
+  padding-left: 5%;
+  padding-right: 5%;
+  width: 100%;
+}
+
+#input1 {
+  height: 45px;
+  width: 49%;
+  margin-bottom: 15px;
+  float: left;
+  border-radius: 7px;
+  border: 1px solid black;
+  text-align: center;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+#input2 {
+  height: 45px;
+  width: 49%;
+  margin-bottom: 15px;
+  width: 49%;
+  float: right;
+  border-radius: 7px;
+  border: 1px solid black;
+  text-align: center;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+#input3 {
+  height: 45px;
+  float: left;
+  width: 100%;
+  margin-bottom: 15px;
+  border-radius: 7px;
+  border: 1px solid black;
+  text-align: center;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+#button {
+  height: 45px;
+  width: 100px;
+  background: #6495ed;
+  border: 1px solid black;
+  box-shadow: 2px 2px;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+#midLine {
+  display: block;
+  margin-top: 100px;
+  margin-bottom: 50px;
+  margin-left: auto;
+  margin-right: auto;
+  border-style: inset;
+  border-width: 3px;
+}
+
+#slides {
+  height: 500px;
+  background: #c0c0c0;
+  margin-left: 10%;
+  margin-right: 10%;
+  margin-bottom: 50px;
+  box-shadow: 5px 5px 5px 5px;
+}
+
+body,
+.carousel,
+.carousel-inner,
+.carousel-item {
+  width: 100%;
+  height: 100%;
+}
+
+.carousel {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+::placeholder,
+#Date,
+#photo,
+#venue {
+  font-family: 'Courier New', Courier, monospace;
+}

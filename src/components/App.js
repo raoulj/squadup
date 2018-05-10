@@ -59,7 +59,12 @@ class App extends Component {
     return (
       <Router>
         <div>
-          <Navbar color="light" light expand="md">
+          <Navbar
+            color="light"
+            light
+            expand="md"
+            style={{ boxShadow: '1px 1px 1px 1px' }}
+          >
             <NavbarBrand href="/">
               <img src={logo} height="50vh" />
             </NavbarBrand>
@@ -77,13 +82,13 @@ class App extends Component {
                 </NavItem>
                 <UncontrolledDropdown nav inNavbar>
                   <DropdownToggle nav caret>
-                    Options
+                    Admin
                   </DropdownToggle>
                   <DropdownMenu right>
                     <DropdownItem href="/CreateEvent">CreateEvent</DropdownItem>
-                    <DropdownItem>Option 2</DropdownItem>
+
                     <DropdownItem divider />
-                    <DropdownItem>Reset</DropdownItem>
+                    <DropdownItem>Logout</DropdownItem>
                   </DropdownMenu>
                 </UncontrolledDropdown>
               </Nav>
