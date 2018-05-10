@@ -12,14 +12,20 @@ import {
   InputGroup,
   InputGroupAddon
 } from 'reactstrap';
+import { Route, Redirect } from 'react-router-dom';
 
 import fire from './../fire';
 
 class Login extends Component {
   constructor(props) {
     super(props);
-
-    this.state = { email: '', password: '', errorMessage: '' };
+    console.log(props);
+    this.state = {
+      email: '',
+      password: '',
+      errorMessage: '',
+      isloggedIn: props.isloggedIn
+    };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -52,52 +58,68 @@ class Login extends Component {
           }
           this.setState({ errorMessage: errorMessage });
         }.bind(this)
+      )
+      .then(
+        function(response) {
+          this.setState({ errorMessage: '' });
+        }.bind(this)
       );
   }
 
   render() {
-    return (
-      <div className="row justify-content-center">
-        <div className="col-4">
-          <br />
-          <Alert color="danger" hidden={this.state.errorMessage === ''}>
-            {this.state.errorMessage}
-          </Alert>
-          <Container>
-            <Form onSubmit={this.handleSubmit}>
-              <FormGroup>
-                <InputGroup>
-                  <InputGroupAddon addonType="prepend">Email</InputGroupAddon>
-                  <Input
-                    type="text"
-                    name="email"
-                    value={this.state.email}
-                    onChange={this.handleChange}
-                    placeholder="Your email"
-                    required
-                  />
-                </InputGroup>
-                <br />
-                <InputGroup>
-                  <InputGroupAddon addonType="prepend">
-                    Password
-                  </InputGroupAddon>
-                  <Input
-                    type="password"
-                    name="password"
-                    value={this.state.password}
-                    onChange={this.handleChange}
-                    placeholder="Your secure password"
-                    required
-                  />
-                </InputGroup>
-              </FormGroup>
-              <Button style={{ marginTop: '20px' }}>Submit</Button>
-            </Form>
-          </Container>
+    console.log(this.state.isloggedIn);
+    if (this.state.isLoggedIn) {
+      return (
+        <Redirect
+          to={{
+            pathname: '/dashboard'
+          }}
+        />
+      );
+    } else {
+      return (
+        <div className="row justify-content-center">
+          <div className="col-4">
+            <br />
+            <Alert color="danger" hidden={this.state.errorMessage === ''}>
+              {this.state.errorMessage}
+            </Alert>
+            <Container>
+              <Form onSubmit={this.handleSubmit}>
+                <FormGroup>
+                  <InputGroup>
+                    <InputGroupAddon addonType="prepend">Email</InputGroupAddon>
+                    <Input
+                      type="text"
+                      name="email"
+                      value={this.state.email}
+                      onChange={this.handleChange}
+                      placeholder="Your email"
+                      required
+                    />
+                  </InputGroup>
+                  <br />
+                  <InputGroup>
+                    <InputGroupAddon addonType="prepend">
+                      Password
+                    </InputGroupAddon>
+                    <Input
+                      type="password"
+                      name="password"
+                      value={this.state.password}
+                      onChange={this.handleChange}
+                      placeholder="Your secure password"
+                      required
+                    />
+                  </InputGroup>
+                </FormGroup>
+                <Button style={{ marginTop: '20px' }}>Submit</Button>
+              </Form>
+            </Container>
+          </div>
         </div>
-      </div>
-    );
+      );
+    }
   }
 }
 

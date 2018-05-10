@@ -11,8 +11,4 @@ var config = {
 
 var fire = firebase.initializeApp(config);
 
-fire.isLoggedIn = function() {
-  return !fire.auth().currentUser === null;
-};
-
 export default fire;

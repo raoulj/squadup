@@ -29,33 +29,43 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      messages: []
+      isloggedIn: false
     }; // <- set up react state
+    fire.auth().onAuthStateChanged(
+      function(user) {
+        if (user) {
+          this.setState({ isloggedIn: true });
+        } else {
+          this.setState({ isloggedIn: false });
+        }
+      }.bind(this)
+    );
   }
-  componentWillMount() {
-    /* Create reference to messages in Firebase Database */
+  // componentWillMount() {
+  //   /* Create reference to messages in Firebase Database */
 
-    let messagesRef = fire
-      .database()
-      .ref('messages')
-      .orderByKey()
-      .limitToLast(100);
-    messagesRef.on('child_added', snapshot => {
-      /* Update React state when message is added at Firebase Database */
-      let message = { text: snapshot.val(), id: snapshot.key };
-      this.setState({ messages: [message].concat(this.state.messages) });
-    });
-  }
-  addMessage(e) {
-    e.preventDefault(); // <- prevent form submit from reloading the page
-    /* Send the message to Firebase */
-    fire
-      .database()
-      .ref('messages')
-      .push(this.inputEl.value);
-    this.inputEl.value = ''; // <- clear the input
-  }
+  //   let messagesRef = fire
+  //     .database()
+  //     .ref('messages')
+  //     .orderByKey()
+  //     .limitToLast(100);
+  //   messagesRef.on('child_added', snapshot => {
+  //     /* Update React state when message is added at Firebase Database */
+  //     let message = { text: snapshot.val(), id: snapshot.key };
+  //     this.setState({ messages: [message].concat(this.state.messages) });
+  //   });
+  // }
+  // addMessage(e) {
+  //   e.preventDefault(); // <- prevent form submit from reloading the page
+  //   /* Send the message to Firebase */
+  //   fire
+  //     .database()
+  //     .ref('messages')
+  //     .push(this.inputEl.value);
+  //   this.inputEl.value = ''; // <- clear the input
+  // }
   render() {
+    console.log('Is logged in: ' + this.state.isloggedIn);
     return (
       <Router>
         <div>
@@ -96,13 +106,18 @@ class App extends Component {
           </Navbar>
           <Switch>
             <Route exact path="/" component={LandingPage} />
-            <Route path="/login" component={Login} />
+            <Route
+              path="/login"
+              component={Login}
+              isloggedIn={this.state.isloggedIn}
+            />
             <Route path="/cal_unprotected" component={Calendar} />
             <Route path="/events" component={Events} />
             <Route path="/CreateEvent" component={CreateEvent} />
 
             <ProtectedRoute
               path="/dashboard"
+              isloggedIn={this.state.isloggedIn}
               component={Calendar}
               redirectPath="/"
             />

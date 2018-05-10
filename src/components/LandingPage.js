@@ -11,7 +11,10 @@ import {
   CarouselItem,
   CarouselControl,
   CarouselIndicators,
-  CarouselCaption
+  CarouselCaption,
+  Alert,
+  Input,
+  Form
 } from 'reactstrap';
 
 const items = [
@@ -29,31 +32,71 @@ const items = [
 class LandingPage extends Component {
   constructor({ component: Component, ...rest }) {
     super();
-    this.state = { activeIndex: 0 };
+    this.state = {
+      activeIndex: 0,
+      errorMessage: '',
+      fname: '',
+      lname: '',
+      password1: '',
+      password2: '',
+      affiliations: '',
+      isLoggedIn: fire.auth().currentUser !== null
+    };
     this.next = this.next.bind(this);
     this.previous = this.previous.bind(this);
     this.goToIndex = this.goToIndex.bind(this);
     this.onExiting = this.onExiting.bind(this);
     this.onExited = this.onExited.bind(this);
-    /* this.state = {
-      childComponent: (
-        <Route
-          {...rest}
-          render={props =>
-            fire.isLoggedIn() ? (
-              <Redirect
-                to={{
-                  pathname: '/dashboard',
-                  state: { from: props.location }
-                }}
-              />
-            ) : (
-              <div>This is the landing page</div>
-            )
-          }
-        />
+
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  handleChange(event) {
+    const target = event.target;
+    const value = target.value;
+    const name = target.name;
+
+    this.setState({
+      [name]: value
+    });
+  }
+
+  handleSubmit(event) {
+    event.preventDefault();
+
+    var password = '';
+    if (this.state.password1 === this.state.password2) {
+      password = this.state.password1;
+    } else {
+      this.setState({ errorMessage: 'Passwords do not match' });
+      return;
+    }
+
+    fire
+      .auth()
+      .createUserWithEmailAndPassword(this.state.email, password)
+      .then(
+        function(response) {
+          this.setState({ errorMessage: '' });
+          this.setState({ isLoggedIn: fire.auth().currentUser !== null });
+          console.log('account created');
+          console.log(response);
+        }.bind(this)
       )
-    }; */
+      .catch(
+        function(error) {
+          // Handle Errors here.
+          var errorCode = error.code;
+          var errorMessage = error.message;
+          if (errorCode == 'auth/weak-password') {
+            errorMessage = 'Password too weak';
+          } else if (errorCode == 'auth/user-not-found') {
+            errorMessage = 'Provided email does not correspond to an account.';
+          }
+          this.setState({ errorMessage: errorMessage });
+        }.bind(this)
+      );
   }
 
   onExiting() {
@@ -88,7 +131,6 @@ class LandingPage extends Component {
   }
 
   render() {
-    //return this.state.childComponent;
     const { activeIndex } = this.state;
 
     const slides = items.map(item => {
@@ -104,99 +146,122 @@ class LandingPage extends Component {
         </CarouselItem>
       );
     });
-
-    return (
-      <div id="landingPage">
-        <center>
-          <h1 id="header">SIGN UP</h1>
-        </center>
-        <div id="signUp">
+    if (this.state.isLoggedIn) {
+      return (
+        <Redirect
+          to={{
+            pathname: '/dashboard'
+          }}
+        />
+      );
+    } else {
+      return (
+        <div id="landingPage">
+          <Alert color="danger" hidden={this.state.errorMessage === ''}>
+            {this.state.errorMessage}
+          </Alert>
           <center>
-            <form>
-              <div id="signForm">
-                <input
-                  type="text"
-                  ref="firstName"
-                  placeholder="First Name"
-                  id="input1"
-                />
-                <input
-                  type="text"
-                  ref="lastName"
-                  placeholder="Last Name"
-                  id="input2"
-                />
-                <br />
-                <input
-                  type="text"
-                  ref="email"
-                  placeholder="Email"
-                  id="input3"
-                />
-                <br />
-                <input
-                  type="text"
-                  ref="username"
-                  placeholder="Username"
-                  id="input3"
-                />
-                <br />
-                <input
-                  type="password"
-                  ref="password"
-                  placeholder="Password"
-                  id="input1"
-                />
-                <br />
-                <input
-                  type="password"
-                  ref="passwordValidate"
-                  placeholder="Validate Password"
-                  id="input2"
-                />
-                <br />
-                <input
-                  type="text"
-                  ref="affiliations"
-                  placeholder="Enter Affiliations"
-                  id="input3"
-                />
-                <br />
-                <input type="submit" value="SquadUp" id="button" />
-              </div>
-            </form>
+            <h1 id="header">SIGN UP to SQUAD UP</h1>
           </center>
-        </div>
-        <hr id="midLine" />
-        <center>
-          <h1 id="header"> ABOUT US </h1>
-        </center>
-        <div id="slides" style={{}}>
-          <Carousel
-            activeIndex={activeIndex}
-            next={this.next}
-            previous={this.previous}
-          >
-            <CarouselIndicators
-              items={items}
+          <div id="signUp">
+            <center>
+              <Form onSubmit={this.handleSubmit}>
+                <div id="signForm">
+                  <Input
+                    id="input1"
+                    type="text"
+                    name="fname"
+                    value={this.state.fname}
+                    onChange={this.handleChange}
+                    placeholder="First Name"
+                    required
+                  />
+                  <Input
+                    id="input2"
+                    type="text"
+                    name="lname"
+                    value={this.state.lname}
+                    onChange={this.handleChange}
+                    placeholder="Last Name"
+                    required
+                  />
+                  <br />
+                  <Input
+                    id="input3"
+                    type="text"
+                    name="email"
+                    value={this.state.email}
+                    onChange={this.handleChange}
+                    placeholder="Email"
+                    required
+                  />
+                  <br />
+                  <Input
+                    id="input1"
+                    type="password"
+                    name="password1"
+                    value={this.state.password}
+                    onChange={this.handleChange}
+                    placeholder="Password"
+                    required
+                  />
+                  <br />
+                  <Input
+                    id="input2"
+                    type="password"
+                    name="password2"
+                    value={this.state.password}
+                    onChange={this.handleChange}
+                    placeholder="Validate Password"
+                    required
+                  />
+                  <br />
+                  <Input
+                    id="input3"
+                    type="text"
+                    name="affiliations"
+                    value={this.state.affiliations}
+                    onChange={this.handleChange}
+                    placeholder="Affiliations"
+                    required
+                  />
+                  <br />
+                  <input type="submit" value="SquadUp" id="button" />
+                </div>
+              </Form>
+            </center>
+          </div>
+          <hr id="midLine" />
+          <center>
+            <h1 id="header"> ABOUT US </h1>
+          </center>
+          <div id="slides" style={{}}>
+            <Carousel
               activeIndex={activeIndex}
-              onClickHandler={this.goToIndex}
-            />
-            {slides}
-            <CarouselControl
-              direction="prev"
-              directionText="Previous"
-              onClickHandler={this.previous}
-            />
-            <CarouselControl
-              direction="next"
-              directionText="Next"
-              onClickHandler={this.next}
-            />
-          </Carousel>
+              next={this.next}
+              previous={this.previous}
+            >
+              <CarouselIndicators
+                items={items}
+                activeIndex={activeIndex}
+                onClickHandler={this.goToIndex}
+              />
+              {slides}
+              <CarouselControl
+                direction="prev"
+                directionText="Previous"
+                onClickHandler={this.previous}
+              />
+              <CarouselControl
+                direction="next"
+                directionText="Next"
+                onClickHandler={this.next}
+              />
+            </Carousel>
+          </div>
         </div>
-      </div>
-    );
+      );
+    }
   }
 }
 

@@ -3,14 +3,14 @@ import { Route, Redirect } from 'react-router-dom';
 import fire from '../fire';
 
 class ProtectedRoute extends Component {
-  constructor({ component: Component, ...rest }) {
+  constructor({ component: Component, isLoggedIn: isLoggedIn, ...rest }) {
     super();
     this.state = {
       childComponent: (
         <Route
           {...rest}
           render={props =>
-            fire.isLoggedIn() ? (
+            isLoggedIn ? (
               <Component {...props} />
             ) : (
               <Redirect

@@ -62,7 +62,7 @@ class CreateEvent extends React.Component {
   addOpponent() {
     var check = document.getElementById('sportingEvent');
     var formGroup = document.getElementById('opponent');
-    if (check.checked == true) {
+    if (check.checked === true) {
       formGroup.style.display = 'inline';
     } else {
       formGroup.style.display = 'none';
