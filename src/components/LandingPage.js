@@ -131,7 +131,6 @@ class LandingPage extends Component {
   }
 
   render() {
-    console.log(this.props);
     const { activeIndex } = this.state;
 
     const slides = items.map(item => {
@@ -229,7 +228,7 @@ class LandingPage extends Component {
                   <br />
                   <input type="submit" value="SquadUp" id="button" />
                   <br />
-                  <p class="accountLogin">
+                  <p className="accountLogin">
                     Already have an account? <a href="/login">Login here</a>
                   </p>
                 </div>
