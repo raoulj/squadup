@@ -14,7 +14,7 @@ import {
 } from 'reactstrap';
 import { Route, Redirect } from 'react-router-dom';
 
-import fire from './../fire';
+import { auth } from './../fire';
 
 class Login extends Component {
   constructor(props) {
@@ -26,7 +26,7 @@ class Login extends Component {
       isLoggedIn: false
     };
 
-    fire.auth().onAuthStateChanged(
+    auth.onAuthStateChanged(
       function(user) {
         if (user) {
           this.setState({ isLoggedIn: true });
@@ -52,8 +52,7 @@ class Login extends Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    fire
-      .auth()
+    auth
       .signInWithEmailAndPassword(this.state.email, this.state.password)
       .catch(
         function(error) {

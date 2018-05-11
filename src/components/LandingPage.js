@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Route, Redirect } from 'react-router-dom';
-import fire from '../fire';
+import { auth } from '../fire';
 import page1 from './../assets/landingImage1.png';
 import page2 from './../assets/landingImage2.png';
 import page3 from './../assets/landingImage3.png';
@@ -41,7 +41,7 @@ class LandingPage extends Component {
       password1: '',
       password2: '',
       affiliations: '',
-      isLoggedIn: fire.auth().currentUser !== null
+      isLoggedIn: auth.currentUser !== null
     };
     this.next = this.next.bind(this);
     this.previous = this.previous.bind(this);
@@ -74,13 +74,12 @@ class LandingPage extends Component {
       return;
     }
 
-    fire
-      .auth()
+    auth
       .createUserWithEmailAndPassword(this.state.email, password)
       .then(
         function(response) {
           this.setState({ errorMessage: '' });
-          this.setState({ isLoggedIn: fire.auth().currentUser !== null });
+          this.setState({ isLoggedIn: auth.currentUser !== null });
           console.log('account created');
           console.log(response);
         }.bind(this)
@@ -152,7 +151,7 @@ class LandingPage extends Component {
       return (
         <Redirect
           to={{
-            pathname: '/dashboard'
+            pathname: '/my-calendar'
           }}
         />
       );

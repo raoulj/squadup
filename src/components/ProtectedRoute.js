@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Route, Redirect } from 'react-router-dom';
-import fire from '../fire';
+import { isAuthenticated } from '../fire';
 
 class ProtectedRoute extends Component {
   constructor({ component: Component, ...rest }) {
@@ -15,7 +15,7 @@ class ProtectedRoute extends Component {
       <Route
         {...this.state.props}
         render={props =>
-          this.props.isLoggedIn ? (
+          isAuthenticated() ? (
             <this.state.component {...this.state.props} />
           ) : (
             <Redirect

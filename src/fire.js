@@ -9,6 +9,13 @@ var config = {
   messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID
 };
 
-var fire = firebase.initializeApp(config);
+export const firebaseApp = firebase.initializeApp(config);
 
-export default fire;
+export const db = firebaseApp.database(); //the real-time database
+export const auth = firebaseApp.auth(); //the firebase auth namespace
+
+export const storageKey = 'UserLoggedSomething';
+
+export const isAuthenticated = () => {
+  return !!auth.currentUser || !!localStorage.getItem(storageKey);
+};
