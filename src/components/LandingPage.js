@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Route, Redirect } from 'react-router-dom';
-import { auth } from '../fire';
+import { auth, isAuthenticated } from '../fire';
 import page1 from './../assets/landingImage1.png';
 import page2 from './../assets/landingImage2.png';
 import page3 from './../assets/landingImage3.png';
@@ -147,7 +147,7 @@ class LandingPage extends Component {
         </CarouselItem>
       );
     });
-    if (this.state.isLoggedIn) {
+    if (isAuthenticated()) {
       return (
         <Redirect
           to={{
