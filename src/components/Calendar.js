@@ -5,14 +5,11 @@ import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 
 BigCalendar.setLocalizer(BigCalendar.momentLocalizer(moment));
-// would come from a network request in a "real" app
-// var a = moment('2018-04-18');
-// var b = moment('2018-04-22');
-// var c = moment('2018-04-04');
 
 class Calendar extends Component {
   constructor(props) {
     super(props);
+    console.log(props);
     this.state = {
       events: [
         {
@@ -35,6 +32,7 @@ class Calendar extends Component {
   }
 
   render() {
+    console.log(this.props);
     return (
       <BigCalendar
         defaultDate={new Date()}

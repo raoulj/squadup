@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { auth, storageKey, isAuthenticated } from './../fire';
+import { auth, storageKey, isAuthenticated, db } from './../fire';
 import {
   Nav,
   Navbar,
@@ -29,13 +29,30 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      uid: null
+      uid: null,
+      myEvents: [],
+      allEvents: []
     }; // <- set up react state
     auth.onAuthStateChanged(
       function(user) {
         if (user) {
+          // Set that we are logged in
           window.localStorage.setItem(storageKey, user.uid);
           this.setState({ uid: user.uid });
+
+          // Fetch events
+          db.ref('all-events/').on(
+            'value',
+            function(snapshot) {
+              this.setState({ allEvents: snapshot.val() });
+            }.bind(this)
+          );
+          db.ref('user-events/' + user.uid).on(
+            'value',
+            function(snapshot) {
+              this.setState({ myEvents: snapshot.val() });
+            }.bind(this)
+          );
         } else {
           window.localStorage.removeItem(storageKey);
           this.setState({ uid: null });
@@ -43,29 +60,6 @@ class App extends Component {
       }.bind(this)
     );
   }
-  // componentWillMount() {
-  //   /* Create reference to messages in Firebase Database */
-
-  //   let messagesRef = fire
-  //     .database()
-  //     .ref('messages')
-  //     .orderByKey()
-  //     .limitToLast(100);
-  //   messagesRef.on('child_added', snapshot => {
-  //     /* Update React state when message is added at Firebase Database */
-  //     let message = { text: snapshot.val(), id: snapshot.key };
-  //     this.setState({ messages: [message].concat(this.state.messages) });
-  //   });
-  // }
-  // addMessage(e) {
-  //   e.preventDefault(); // <- prevent form submit from reloading the page
-  //   /* Send the message to Firebase */
-  //   fire
-  //     .database()
-  //     .ref('messages')
-  //     .push(this.inputEl.value);
-  //   this.inputEl.value = ''; // <- clear the input
-  // }
   logout(e) {
     e.preventDefault();
     auth.signOut().then(
@@ -80,7 +74,7 @@ class App extends Component {
   }
 
   render() {
-    console.log('Is logged in: ' + isAuthenticated());
+    console.log(this.state.allEvents);
     return (
       <Router>
         <div>
@@ -130,8 +124,16 @@ class App extends Component {
             <Route path="/login" component={Login} />
             <ProtectedRoute path="/events" component={Events} />
             <ProtectedRoute path="/CreateEvent" component={CreateEvent} />
-            <ProtectedRoute path="/all-calendar" component={Calendar} />
-            <ProtectedRoute path="/my-calendar" component={Calendar} />
+            <ProtectedRoute
+              path="/all-calendar"
+              component={Calendar}
+              events={this.state.allEvents}
+            />
+            <ProtectedRoute
+              path="/my-calendar"
+              component={Calendar}
+              events={this.state.myEvents}
+            />
             <Route component={NoMatch} />
           </Switch>
         </div>

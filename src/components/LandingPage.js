@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Route, Redirect } from 'react-router-dom';
-import { auth, isAuthenticated } from '../fire';
+import { auth, isAuthenticated, db } from '../fire';
 import page1 from './../assets/landingImage1.png';
 import page2 from './../assets/landingImage2.png';
 import page3 from './../assets/landingImage3.png';
@@ -79,9 +79,15 @@ class LandingPage extends Component {
       .then(
         function(response) {
           this.setState({ errorMessage: '' });
-          this.setState({ isLoggedIn: auth.currentUser !== null });
           console.log('account created');
           console.log(response);
+          this.writeUserData(
+            response.uid,
+            this.state.fname,
+            this.state.lname,
+            this.state.email,
+            this.state.affiliations
+          );
         }.bind(this)
       )
       .catch(
@@ -97,6 +103,15 @@ class LandingPage extends Component {
           this.setState({ errorMessage: errorMessage });
         }.bind(this)
       );
+  }
+
+  writeUserData(userId, fname, lname, email, affiliations) {
+    db.ref('users/' + userId).set({
+      email: email,
+      fname: fname,
+      lname: lname,
+      affiliations: affiliations
+    });
   }
 
   onExiting() {
